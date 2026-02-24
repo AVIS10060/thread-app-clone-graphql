@@ -1,6 +1,7 @@
 import type { CreateUserPayload } from "../../services/user.js"
 import UserService from "../../services/user.js"
 
+
 const queries = {
     getUserToken:async(_: any,payload:{email:string,password:string}) =>{
         const token  = await UserService.getUserToken({
@@ -9,7 +10,12 @@ const queries = {
         })
         return token
 
-    }
+    },
+    getCurrentLoggedInUser: async (_:any, __:any, context:any) => {
+    const token = context.token
+    const user = await UserService.getCurrentLoggedInUser(token)
+    return user
+}
 }
 
 const mutations = {
