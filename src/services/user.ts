@@ -57,6 +57,19 @@ class UserService{
         return token
         
     }
+    public static async getCurrentLoggedInUser(token:string){
+    try{
+        const userPayload:any = JWT.verify(token, JWT_SECRET)
+
+        const user = await prismaClient.user.findUnique({
+            where:{ id: userPayload.id }
+        })
+
+        return user
+    }catch(err){
+        throw new Error("Invalid token")
+    }
+}
 
 }
 
