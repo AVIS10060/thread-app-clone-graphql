@@ -18,7 +18,12 @@ app.get('/',(req,res)=>{
 })
 const gqlServer = await createApolloGraphqlServer()
 
-app.use('/graphql',expressMiddleware(gqlServer))
+app.use('/graphql',expressMiddleware(gqlServer, {
+   context: async ({ req }) => {
+      const token = req.headers.authorization?.replace("Bearer ", "")
+      return { token }
+    }
+}))
 
 
 app.listen(Port, () =>{
